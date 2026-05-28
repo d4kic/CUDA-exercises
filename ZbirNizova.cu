@@ -1,10 +1,9 @@
-%%cuda
 #include <stdio.h>
 #define n 10
 
 __global__ void add(int* a, int* b, int* c) {
     int tid = threadIdx.x + blockIdx.x * blockDim.x;
-    if (tid < n) {
+    while (tid < n) {
         c[tid] = a[tid] + b[tid];
         tid += blockDim.x * gridDim.x;
     }
@@ -26,7 +25,7 @@ int main() {
     cudaMemcpy(dev_a, a, n * sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dev_b, b, n * sizeof(int), cudaMemcpyHostToDevice);
 
-    add<<<(n + 127) / 128, 128>>>(dev_a, dev_b, dev_c);
+    add<<<128, 128>>>(dev_a, dev_b, dev_c);
     cudaMemcpy(&c, dev_c, sizeof(int), cudaMemcpyDeviceToHost);
     
     for (int i=0; i<n; ++i) {
