@@ -1,5 +1,9 @@
 #include <stdio.h>
+
 #define n 10
+#define BLOCKSIZE 32
+
+const int GRIDSIZE = (n + BLOCKSIZE - 1) / BLOCKSIZE;
 
 __global__ void add(int* a, int* b, int* c) {
     int tid = threadIdx.x + blockIdx.x * blockDim.x;
@@ -25,7 +29,7 @@ int main() {
     cudaMemcpy(dev_a, a, n * sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dev_b, b, n * sizeof(int), cudaMemcpyHostToDevice);
 
-    add<<<128, 128>>>(dev_a, dev_b, dev_c);
+    add<<<GRIDSIZE, BLOCKSIZE>>>(dev_a, dev_b, dev_c);
     cudaMemcpy(&c, dev_c, sizeof(int), cudaMemcpyDeviceToHost);
     
     for (int i=0; i<n; ++i) {
