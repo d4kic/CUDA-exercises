@@ -24,7 +24,7 @@ __global__ void transp(float* a, float* b, int m, int n) {
 }
 
 __host__ void fillMat(float* mat, int size) {
-    for (int i=0; i<size; ++i) {
+    for (int i=0; i < size; ++i) {
         mat[i] = (float)rand() / RAND_MAX;
     }
 }
