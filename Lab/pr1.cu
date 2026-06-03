@@ -42,10 +42,10 @@ int main() {
     const int BLOCKS = (n + TILE - 1) / TILE;
     computeB<<<BLOCKS, TILES>>>(dev_a, dev_b, n);
 
-    cudaMemcpy(dev_b, b, (n - 2) * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaMemcpy(b, dev_b, (n - 2) * sizeof(int), cudaMemcpyDeviceToHost);
 
     for (int i = 0; i < n - 2; ++i) {
-        printf("%d ", b[i]);
+        printf("%.2f ", b[i]);
     }
 
     cudaFree(dev_a);

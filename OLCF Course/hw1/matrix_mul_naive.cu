@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <time.h>
 
 #define BSIZE 16
 
@@ -49,7 +48,7 @@ int main() {
     dim3 GRIDSIZE((k + BSIZE - 1) / BSIZE, (n + BSIZE - 1) / BSIZE);
     matmul<<<GRIDSIZE, BLOCKSIZE>>>(dev_a, dev_b, dev_c);
     cudaDeviceSynchronize();
-    
+
     cudaMemcpy(c, dev_c, n * k * sizeof(int), cudaMemcpyDeviceToHost);
 
     for (int i=0; i<n; ++i) {
