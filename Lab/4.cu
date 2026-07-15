@@ -17,7 +17,13 @@ __global__ void reduce(double *a, double *b, int n) {
     __syncthreads();
 
     if (i < n - 2) {
-        b[i] = (shmem[threadIdx.x] * shmem[threadIdx.x + 1] * shmem[threadIdx.x + 2]) / 200;
+        double delilac = (shmem[threadIdx.x + 1] + shmem[threadIdx.x + 2]) * 3;
+        if (delilac != 0) {
+            b[i] = (shmem[threadIdx.x] + 200) / delilac;
+        }
+        else {
+            b[i] = 0;
+        }
     }
 } 
 

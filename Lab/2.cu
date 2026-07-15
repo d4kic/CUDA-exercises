@@ -6,7 +6,7 @@ __global__ void reduce(double *a, double *b, int n) {
     __shared__ double shmem[BLOCKSIZE + 2];
     int i = threadIdx.x + blockIdx.x * blockDim.x;
 
-    if (threadIdx.x < n) {
+    if (i < n) {
         shmem[threadIdx.x] = a[i];
     }
 
